@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback SENELEC - IA Générative</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --senelec-blue: #0055A4; --senelec-yellow: #FFD700; --bg: #f4f7f9; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        .header { text-align: center; border-bottom: 5px solid var(--senelec-yellow); padding-bottom: 20px; margin-bottom: 30px; }
+        .header img { height: 50px; margin-bottom: 10px; }
+        h1 { color: var(--senelec-blue); font-size: 1.3rem; margin: 0; line-height: 1.2; }
+        .badge { display: inline-block; background: #eef6ff; color: var(--senelec-blue); padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; margin-top: 10px; }
+
+        fieldset { border: 1px solid #eee; border-radius: 10px; padding: 20px; margin-bottom: 25px; }
+        legend { font-weight: 700; color: var(--senelec-blue); padding: 0 10px; font-size: 1rem; }
+
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: inherit; font-size: 0.9rem; }
+
+        .nps-group { display: flex; justify-content: space-between; gap: 4px; margin-bottom: 10px; }
+        .nps-item { flex: 1; }
+        .nps-item input { display: none; }
+        .nps-item label { display: block; text-align: center; padding: 10px 0; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 0.8rem; transition: 0.2s; background: #fafafa; }
+        .nps-item input:checked + label { background: var(--senelec-blue); color: white; border-color: var(--senelec-blue); }
+
+        button { width: 100%; background: var(--senelec-blue); color: white; border: none; padding: 16px; border-radius: 10px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        button:hover { background: #003d7a; transform: translateY(-2px); }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+
+        .footer { text-align: center; font-size: 0.75rem; color: #888; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="data:image/jpeg;base64,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" alt="senelec">
+        <img src="data:image/png;base64,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" alt=""> 
+        <h1>Formation IA Générative : Copilot & Power Automate</h1>
+        <div class="badge">📍 CFPP de Mbao — SENELEC</div>
+    </div>
+
+    <form id="feedbackSenelec">
+        <fieldset>
+            <legend>Identification</legend>
+            <div style="margin-bottom: 15px;">
+                <label for="nom">Nom Complet *</label>
+                <input type="text" id="nom" required placeholder="Prénom et Nom">
+            </div>
+            <div>
+                <label for="direction">Direction / Unité *</label>
+                <input type="text" id="direction" required placeholder="Ex: DIS, Unité Mbao, DME...">
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Évaluation de la Session (NPS)</legend>
+            <label>Qualité du contenu du cours :</label>
+            <div class="nps-group" id="nps_cours"></div>
+
+            <label>Pédagogie et maîtrise des formateurs :</label>
+            <div class="nps-group" id="nps_formateur"></div>
+            <p style="font-size: 0.7rem; color: #888; text-align: center;">(0 = Très déçu | 10 = Excellent)</p>
+        </fieldset>
+
+        <fieldset>
+            <legend>Impact & Intérêt</legend>
+            <div style="margin-bottom: 15px;">
+                <label for="impact">Impact de l'IA dans votre travail quotidien :</label>
+                <textarea id="impact" rows="3" required placeholder="Comment cela va vous aider ?"></textarea>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label for="next_course">Quelle autre formation GOMYCODE vous intéresse ? *</label>
+                <select id="next_course" required>
+                    <option value="">-- Sélectionner un parcours --</option>
+                    <option>Data Analytics - Microsoft Power BI Certified</option>
+                    <option>Graphic Design - Adobe Certified</option>
+                    <option>Data Scientist Bootcamp: NVIDIA Certified</option>
+                    <option>Introduction to Social Media Marketing with AI skills</option>
+                    <option>Digital Marketing Bootcamp with AI skills</option>
+                    <option>Advanced Digital Marketing with AI skills - Meta Certified</option>
+                    <option>Cyber Security Bootcamp: Certified CompTIA Security+ 701</option>
+                    <option>Software Development Bootcamp with AI skills</option>
+                    <option>Python Essentials</option>
+                    <option>Generative AI for Professionals</option>
+                    <option>Introduction to Microsoft Office</option>
+                    <option>Introduction to Web Development with AI skills</option>
+                </select>
+            </div>
+        </fieldset>
+
+        <button type="submit" id="submitBtn">Envoyer mon Feedback</button>
+    </form>
+
+    <div class="footer">
+        © 2026 SENELEC x GOMYCODE - CFPP MBAO
+    </div>
+</div>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwWhsvPkRgc0NS90tDnzW5Z33RzGxkiucHC7cDEUEqZJDdkrzx5ftkj4CSHpsIHMjy4Ow/exec";
+
+    const generateNPS = (containerId) => {
+        const container = document.getElementById(containerId);
+        for(let i=0; i<=10; i++) {
+            container.innerHTML += `
+                <div class="nps-item">
+                    <input type="radio" name="${containerId}" id="${containerId}_${i}" value="${i}" ${i===10?'checked':''}>
+                    <label for="${containerId}_${i}">${i}</label>
+                </div>`;
+        }
+    };
+    generateNPS('nps_cours');
+    generateNPS('nps_formateur');
+
+    document.getElementById('feedbackSenelec').onsubmit = function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerText = "Envoi en cours...";
+
+        const payload = {
+            nom: document.getElementById('nom').value,
+            direction: document.getElementById('direction').value,
+            nps_cours: document.querySelector('input[name="nps_cours"]:checked').value,
+            nps_formateur: document.querySelector('input[name="nps_formateur"]:checked').value,
+            impact: document.getElementById('impact').value,
+            interet: document.getElementById('next_course').value
+        };
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            document.querySelector('.container').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <h2 style="color: var(--senelec-blue);">Merci !</h2>
+                    <p>Votre feedback a été enregistré. Bonne continuation avec Copilot !</p>
+                </div>`;
+        })
+        .catch(() => {
+            alert("Erreur. Veuillez réessayer.");
+            btn.disabled = false;
+        });
+    };
+</script>
+
+</body>
+</html>
